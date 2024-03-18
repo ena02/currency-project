@@ -19,11 +19,16 @@ public class CurrencyController {
 
     private final XMLService xmlService;
 
-    @GetMapping("/all/{date}")
+    @GetMapping("/rate/{date}")
     public List<CurrencyType> currencyType(@PathVariable("date") String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        formatter = formatter.withLocale( date );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
         LocalDate dt = LocalDate.parse(date, formatter);
-        return xmlService.parseCurrency(dt).getCurrencyList();
+        return xmlService.parseCurrencyByDate(dt).getCurrencyList();
+    }
+
+    @GetMapping("/title/{title}")
+    public String currencyByTitle(@PathVariable("title") String title) {
+        return xmlService.parseCurrencyByName(title);
     }
 }
