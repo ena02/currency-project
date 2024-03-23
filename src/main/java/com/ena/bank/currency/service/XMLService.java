@@ -29,16 +29,16 @@ public class XMLService {
         return client.parseCurrencyByDate(date);
     }
 
-    public String parseCurrencyByName(String currencyName) {
+    public BigDecimal parseCurrencyByCode(String currencyCode) {
         CurrencyGlobal currencyGlobal = client.parseCurrencyByDate(LocalDate.now());
         List<CurrencyType> currencyList = currencyGlobal.getCurrencyList();
         for (CurrencyType currencyType : currencyList) {
             String currencyTitle = currencyType.getTitle();
-            if (Objects.equals(currencyTitle, currencyName)) {
-                return String.valueOf(currencyType.getDescription());
+            if (Objects.equals(currencyTitle, currencyCode)) {
+                return BigDecimal.valueOf(currencyType.getDescription());
             }
         }
-        return "";
+        throw new IllegalArgumentException("There is no such currency");
     }
 
 
